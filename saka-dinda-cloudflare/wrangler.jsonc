@@ -1,5 +1,5 @@
 {
-  "name": "saka-dinda-wedding",
+  "name": "putrasaka-stiadinda-wedding",
   "main": "worker.ts",
   "compatibility_date": "2026-05-15",
   "compatibility_flags": [
@@ -17,7 +17,7 @@
     {
       "binding": "DB",
       "database_name": "saka-dinda-guestbook",
-      "database_id": "00000000-0000-4000-8000-000000000000",
+      "database_id": "c7a320ee-caf5-4f96-8d4b-de3b1cd1341d",
       "migrations_dir": "migrations"
     }
   ]
