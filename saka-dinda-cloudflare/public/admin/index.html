@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow, noarchive">
+  <meta name="referrer" content="no-referrer">
+  <title>Admin RSVP & Buku Ucapan — Saka & Dinda</title>
+  <style>
+    :root{color-scheme:light;--bg:#f8f4f0;--paper:#fff;--ink:#312d35;--muted:#827781;--gold:#ac8769;--wine:#513544;--stroke:#e9e1de;--soft:#f5ece9;--green:#277a59;--red:#a34d4a}
+    *{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5}
+    button,input{font:inherit}button{cursor:pointer}button:disabled{cursor:not-allowed;opacity:.5}
+    .shell{max-width:1200px;margin:auto;padding:28px 20px 64px}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:27px;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:13px}.mark{width:43px;height:43px;display:grid;place-items:center;background:var(--wine);color:#f4dbc3;border-radius:14px;font:italic 24px Georgia,serif}
+    .eyebrow{letter-spacing:2.3px;text-transform:uppercase;font-size:10px;color:var(--gold);font-weight:800}.brand h1{margin:1px 0 0;font:normal 24px Georgia,serif}
+    .topactions,.actions{display:flex;align-items:center;flex-wrap:wrap;gap:8px}
+    .btn{border:1px solid var(--stroke);border-radius:11px;background:var(--paper);padding:10px 14px;color:var(--ink);font-weight:650;min-height:40px}
+    .btn:hover{border-color:var(--gold)}.btn.primary{background:var(--wine);border-color:var(--wine);color:white}
+    .intro{margin:0 0 22px}.intro h2{font:normal 33px Georgia,serif;margin:0 0 5px}.intro p{margin:0;color:var(--muted);font-size:14px}
+    .stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px;margin-bottom:24px}.stat{background:var(--paper);border:1px solid var(--stroke);padding:19px;border-radius:16px}
+    .stat .cap{font-size:12px;color:var(--muted);margin-bottom:10px}.stat .num{font:normal 29px Georgia,serif;color:var(--wine)}
+    .switch{display:flex;gap:7px;margin:0 0 15px;flex-wrap:wrap}.switch button{border:1px solid var(--stroke);padding:10px 15px;background:#fff;border-radius:10px;color:var(--muted);font-weight:700}
+    .switch button.selected{border-color:var(--wine);color:#fff;background:var(--wine)}
+    .panel{background:var(--paper);border:1px solid var(--stroke);border-radius:17px;overflow:hidden}
+    .panelHead{padding:19px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;border-bottom:1px solid var(--stroke)}
+    .panelHead h3{font:normal 22px Georgia,serif;margin:0}.panelHead p{color:var(--muted);margin:4px 0 0;font-size:12px}
+    .scroll{overflow-x:auto}table{width:100%;border-collapse:collapse;min-width:660px}th{font-size:11px;letter-spacing:.9px;text-transform:uppercase;text-align:left;color:var(--muted);font-weight:750;background:#faf7f5}
+    th,td{padding:14px 18px;border-bottom:1px solid var(--stroke);vertical-align:top}td{font-size:13px}td.name{font-weight:700}td.message{white-space:pre-wrap;max-width:450px;overflow-wrap:anywhere}
+    .pill{border-radius:20px;padding:5px 10px;font-size:11px;font-weight:800;white-space:nowrap}.pill.yes{background:#e3f3ea;color:var(--green)}.pill.no{background:#fae8e6;color:var(--red)}
+    .foot{padding:14px 20px;display:flex;align-items:center;justify-content:space-between;gap:15px;color:var(--muted);font-size:12px}.foot .btn{min-height:34px;padding:6px 12px;font-size:12px}
+    .notice{background:#fff4e9;border:1px solid #eddbc7;border-radius:12px;color:#71533a;padding:13px 16px;margin-bottom:20px;font-size:13px}
+    .error{background:#fff0f0;color:#a13b3b;border:1px solid #f0cfcf;border-radius:10px;padding:11px 13px;font-size:13px;margin:12px 0}
+    .loginScreen{min-height:90vh;display:grid;place-items:center;padding:20px}.loginCard{background:#fff;border:1px solid var(--stroke);max-width:425px;width:100%;padding:35px;border-radius:22px;box-shadow:0 18px 60px #51354411}
+    .loginCard h1{font:normal 35px Georgia,serif;margin:14px 0 7px}.loginCard p{color:var(--muted);font-size:14px;margin:0 0 25px}
+    label{display:block;color:var(--ink);font-size:13px;font-weight:700;margin-bottom:7px}input{display:block;width:100%;padding:13px 14px;border-radius:10px;border:1px solid #d8cfce;margin-bottom:16px;outline:none}input:focus{border-color:var(--wine);box-shadow:0 0 0 3px #51354420}
+    .loginCard .btn{width:100%;margin-top:1px}.small{font-size:11px!important;color:var(--muted)!important;margin:18px 0 0!important}
+    .hidden{display:none!important}#message{margin-bottom:15px}#loading{padding:36px;color:var(--muted);text-align:center}
+    @media(max-width:900px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:580px){.shell{padding:18px 12px 44px}.top{gap:11px}.brand h1{font-size:19px}.intro h2{font-size:27px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{padding:13px}.stat .num{font-size:25px}.stat .cap{font-size:11px}.panelHead{padding:14px}.loginCard{padding:25px}.foot{padding:12px;flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <main id="login" class="loginScreen hidden">
+    <section class="loginCard">
+      <div class="mark">S&amp;D</div><div class="eyebrow" style="margin-top:19px">Private administration</div>
+      <h1>Selamat datang</h1><p>Dashboard khusus pengelola undangan Saka &amp; Dinda.</p>
+      <form id="loginForm" autocomplete="off">
+        <label for="password">Password admin</label>
+        <input id="password" type="password" autocomplete="current-password" minlength="16" required placeholder="Masukkan password admin">
+        <div id="loginError" class="error hidden" role="alert"></div>
+        <button id="loginButton" type="submit" class="btn primary">Masuk ke Dashboard</button>
+      </form>
+      <p class="small">Akses terbatas. Sesi login berlaku maksimal 8 jam. Jangan bagikan password.</p>
+    </section>
+  </main>
+
+  <main id="dashboard" class="shell hidden">
+    <header class="top">
+      <div class="brand"><div class="mark">S&amp;D</div><div><div class="eyebrow">Wedding Administration</div><h1>Saka &amp; Dinda</h1></div></div>
+      <div class="topactions"><button id="refresh" class="btn">↻ Refresh data</button><button id="logout" class="btn">Keluar</button></div>
+    </header>
+    <section class="intro"><h2>Ringkasan Tamu</h2><p>Pantau konfirmasi kehadiran dan pesan ucapan dari satu tempat.</p></section>
+    <div class="notice">Privat: data RSVP hanya tersedia untuk admin yang login. Unduhan CSV dapat dibuka dengan Microsoft Excel.</div>
+    <div id="message" class="error hidden" role="alert"></div>
+    <section class="stats" aria-label="Ringkasan statistik">
+      <article class="stat"><div class="cap">Total konfirmasi</div><div class="num" id="responses">—</div></article>
+      <article class="stat"><div class="cap">Konfirmasi hadir</div><div class="num" id="attending">—</div></article>
+      <article class="stat"><div class="cap">Tidak hadir</div><div class="num" id="notAttending">—</div></article>
+      <article class="stat"><div class="cap">Total orang hadir</div><div class="num" id="guests">—</div></article>
+      <article class="stat"><div class="cap">Jumlah ucapan</div><div class="num" id="wishesCount">—</div></article>
+    </section>
+    <nav class="switch" aria-label="Pilih data">
+      <button type="button" id="tabRsvps" class="selected">Daftar RSVP</button>
+      <button type="button" id="tabWishes">Buku Ucapan</button>
+    </nav>
+    <section class="panel">
+      <div class="panelHead"><div><h3 id="panelTitle">Daftar RSVP</h3><p id="panelSubtitle">Konfirmasi dan jumlah tamu</p></div><div class="actions"><button id="export" class="btn primary">↓ Export CSV</button></div></div>
+      <div id="loading">Memuat data ...</div>
+      <div id="tableWrap" class="scroll hidden"><table><thead id="tableHead"></thead><tbody id="tableBody"></tbody></table></div>
+      <div class="foot"><div id="pageInfo">—</div><div class="actions"><button id="prev" class="btn">← Sebelumnya</button><button id="next" class="btn">Berikutnya →</button></div></div>
+    </section>
+    <p class="small" style="text-align:center;margin-top:28px!important">Admin Saka &amp; Dinda · Data dari Cloudflare D1 · <a href="/" style="color:var(--wine)">Kembali ke Undangan</a></p>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      let tab = 'rsvps', offset = 0, nextOffset = null, loading = false;
+      const PAGE_SIZE = 50;
+      const header = {
+        rsvps: ['Nama tamu','Status','Jumlah orang','Tanggal konfirmasi'],
+        wishes: ['Nama pengirim','Ucapan','Tanggal kirim']
+      };
+      const field = {
+        rsvps: ['name','attendance','guests','updated_at'],
+        wishes: ['name','message','created_at']
+      };
+      function show(which) { $('login').classList.toggle('hidden', which !== 'login'); $('dashboard').classList.toggle('hidden', which !== 'dashboard'); }
+      function error(message, login = false) { const el = $(login ? 'loginError' : 'message'); el.textContent = message; el.classList.remove('hidden'); }
+      function clearError(login = false) { const el = $(login ? 'loginError' : 'message'); el.textContent = ''; el.classList.add('hidden'); }
+      async function api(path, options = {}) {
+        const response = await fetch('/api/admin/' + path, { credentials:'same-origin', cache:'no-store', ...options });
+        let data;
+        try { data = await response.json(); } catch { throw new Error('Respons API admin tidak valid. Periksa deployment Pages Functions.'); }
+        if (response.status === 401 && path !== 'login') { show('login'); throw new Error('Sesi telah berakhir. Login kembali.'); }
+        if (!response.ok) throw new Error(data.error || ('Error HTTP ' + response.status));
+        return data;
+      }
+      function fmtDate(ms) { if (!Number.isFinite(Number(ms))) return '—'; return new Intl.DateTimeFormat('id-ID',{dateStyle:'medium',timeStyle:'short',timeZone:'Asia/Jakarta'}).format(new Date(Number(ms))); }
+      function td(row, value, cls='') { const el = document.createElement('td'); el.textContent = String(value ?? '—'); if (cls) el.className=cls; row.appendChild(el); return el; }
+      function renderTable(rows) {
+        const tr = document.createElement('tr'); header[tab].forEach(text => { const th=document.createElement('th'); th.textContent=text; tr.appendChild(th); });
+        $('tableHead').replaceChildren(tr);
+        const body=$('tableBody'); body.replaceChildren();
+        if (!rows.length) { const r=document.createElement('tr'); const c=document.createElement('td'); c.colSpan=header[tab].length; c.textContent='Belum ada data pada halaman ini.'; r.appendChild(c); body.appendChild(r); }
+        for (const item of rows) {
+          const r=document.createElement('tr'); td(r,item.name,'name');
+          if (tab==='rsvps') {
+            const c=document.createElement('td'), p=document.createElement('span');
+            p.className='pill '+(item.attendance==='yes'?'yes':'no'); p.textContent=item.attendance==='yes'?'Hadir':'Tidak hadir'; c.appendChild(p);r.appendChild(c);
+            td(r,item.guests); td(r,fmtDate(item.updated_at));
+          } else { td(r,item.message,'message'); td(r,fmtDate(item.created_at)); }
+          body.appendChild(r);
+        }
+      }
+      async function summary() {
+        const data=await api('summary');
+        [['responses','responses'],['attending','attending'],['notAttending','notAttending'],['guests','guests'],['wishes','wishesCount']].forEach(([source,id])=>{ $(id).textContent=Number(data[source]||0).toLocaleString('id-ID'); });
+      }
+      async function loadTable() {
+        if (loading) return;
+        loading=true; clearError(); $('loading').classList.remove('hidden'); $('tableWrap').classList.add('hidden');
+        try {
+          const data=await api(tab+'?offset='+offset+'&limit='+PAGE_SIZE);
+          renderTable(data.items||[]); nextOffset=data.nextOffset;
+          $('pageInfo').textContent='Baris '+(offset+(data.items.length?1:0))+'–'+(offset+data.items.length);
+          $('prev').disabled=offset===0; $('next').disabled=nextOffset===null;
+          $('tableWrap').classList.remove('hidden');
+        } catch(e) { error(e.message); }
+        finally { $('loading').classList.add('hidden'); loading=false; }
+      }
+      function switchTab(value) {
+        if (loading) return;
+        tab=value;offset=0;nextOffset=null;
+        $('tabRsvps').classList.toggle('selected',tab==='rsvps'); $('tabWishes').classList.toggle('selected',tab==='wishes');
+        $('panelTitle').textContent=tab==='rsvps'?'Daftar RSVP':'Buku Ucapan';
+        $('panelSubtitle').textContent=tab==='rsvps'?'Konfirmasi dan jumlah tamu':'Ucapan yang masuk dari website';
+        loadTable();
+      }
+      function safeCell(value) {
+        let v=String(value ?? '');
+        // Protect against spreadsheet formula injection when CSV is opened in Excel.
+        if (/^[\s]*[=+\-@\t\r]/.test(v)) v="'"+v;
+        return '"'+v.replaceAll('"','""')+'"';
+      }
+      async function exportCsv() {
+        const button=$('export'), type=tab; button.disabled=true; button.textContent='Menyiapkan CSV...';clearError();
+        try {
+          const rows=[]; let current=0, safety=0;
+          while (safety++ < 250) {
+            const data=await api(type+'?offset='+current+'&limit=200');
+            rows.push(...(data.items||[]));
+            if (data.nextOffset===null) break;
+            current=data.nextOffset;
+          }
+          if (safety>=250) throw new Error('Terlalu banyak data untuk sekali export. Hubungi pengelola teknis.');
+          const columns=type==='rsvps'? ['Nama','Kehadiran','Jumlah Orang','Waktu Konfirmasi WIB']:['Nama','Ucapan','Waktu Kirim WIB'];
+          const entries=rows.map(i=>type==='rsvps'
+            ? [i.name,i.attendance==='yes'?'Hadir':'Tidak hadir',i.guests,fmtDate(i.updated_at)]
+            : [i.name,i.message,fmtDate(i.created_at)]);
+          const csv='\uFEFF'+[columns,...entries].map(row=>row.map(safeCell).join(',')).join('\r\n');
+          const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+          const a=document.createElement('a'); a.href=url;a.download=`saka-dinda-${type}-${new Date().toISOString().slice(0,10)}.csv`;
+          document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+        } catch(e) { error(e.message); }
+        finally { button.disabled=false;button.textContent='↓ Export CSV'; }
+      }
+      $('loginForm').addEventListener('submit',async e=>{
+        e.preventDefault();clearError(true);const button=$('loginButton'); button.disabled=true;
+        try {
+          await api('login',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({password:$('password').value})});
+          $('password').value='';show('dashboard');await Promise.all([summary(),loadTable()]);
+        } catch(e) { error(e.message,true); }
+        finally { button.disabled=false; }
+      });
+      $('logout').addEventListener('click',async()=>{ try { await api('logout',{method:'POST',headers:{'content-type':'application/json'}}); } catch {} show('login'); });
+      $('refresh').addEventListener('click',async()=>{clearError();try {await Promise.all([summary(),loadTable()]);}catch(e){error(e.message);}});
+      $('tabRsvps').addEventListener('click',()=>switchTab('rsvps'));
+      $('tabWishes').addEventListener('click',()=>switchTab('wishes'));
+      $('prev').addEventListener('click',()=>{if(offset>=PAGE_SIZE){offset-=PAGE_SIZE;loadTable();}});
+      $('next').addEventListener('click',()=>{if(nextOffset!==null){offset=nextOffset;loadTable();}});
+      $('export').addEventListener('click',exportCsv);
+      (async()=>{try {await api('me');show('dashboard');await Promise.all([summary(),loadTable()]);}catch{show('login');}})();
+    })();
+  </script>
+</body>
+</html>
