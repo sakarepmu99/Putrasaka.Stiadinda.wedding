@@ -1,4 +1,4 @@
-// Saka & Dinda — private, read-only administration API on Cloudflare Pages.
+// Saka & Dinda — private administration API with authenticated RSVP editing and targeted deletions on Cloudflare Pages.
 // Required Pages Production bindings: DB (D1), ADMIN_PASSWORD (secret), ADMIN_SESSION_SECRET (secret).
 // The general /api/[[path]].js service proxy remains unchanged.
 const JSON_HEADERS = {
@@ -70,6 +70,28 @@ async function failLogin(env, key, previous, now) {
     .bind(key, failures, now, blockedUntil).run();
   return blockedUntil > now;
 }
+function validUuid(id) {
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+}
+function cleanName(value) {
+  if (typeof value !== "string") return null;
+  const cleaned = value.replace(/[\u0000-\u001f\u007f]/g, " ").replace(/\s+/g, " ").trim();
+  return cleaned.length > 0 && cleaned.length <= 80 ? cleaned : null;
+}
+async function jsonBody(request) {
+  if (!(request.headers.get("content-type") || "").toLowerCase().includes("application/json"))
+    return { error: "Gunakan JSON.", status: 415 };
+  const raw = await request.text();
+  if (raw.length > 4096) return { error: "Permintaan terlalu besar.", status: 413 };
+  try {
+    const data = JSON.parse(raw);
+    return data && typeof data === "object" && !Array.isArray(data)
+      ? { data } : { error: "Data tidak valid.", status: 400 };
+  } catch {
+    return { error: "JSON tidak valid.", status: 400 };
+  }
+}
+
 function parsePaging(url) {
   const rawOffset = url.searchParams.get("offset") || "0";
   const rawLimit = url.searchParams.get("limit") || "50";
@@ -126,6 +148,46 @@ export async function onRequest({ request, env }) {
   }
 
   if (!await isLoggedIn(request, env)) return noCache({ error: "Silakan login sebagai admin." }, 401);
+
+  // Mutations require a signed admin session, same-origin request, and an exact UUID.
+  // Only these two carefully scoped actions can modify the database.
+  const record = action.match(/^(rsvps|wishes)\/([^/]+)$/);
+  if (record && ["PATCH", "DELETE"].includes(request.method)) {
+    if (!sameOrigin(request)) return noCache({ error: "Asal permintaan tidak sesuai." }, 403);
+    const [, table, id] = record;
+    if (!validUuid(id)) return noCache({ error: "ID data tidak valid." }, 400);
+    if (table === "wishes" && request.method !== "DELETE")
+      return noCache({ error: "Metode tidak didukung untuk ucapan." }, 405, { Allow: "DELETE" });
+    try {
+      if (request.method === "DELETE") {
+        const result = await env.DB.prepare(table === "rsvps"
+          ? "DELETE FROM rsvps WHERE id = ?"
+          : "DELETE FROM wishes WHERE id = ?").bind(id).run();
+        if (!result?.meta?.changes) return noCache({ error: "Data tidak ditemukan atau sudah dihapus." }, 404);
+        return noCache({ ok: true, deletedId: id });
+      }
+      // RSVP PATCH. Old updated_at guards against overwriting a more recent edit.
+      const parsed = await jsonBody(request);
+      if (parsed.error) return noCache({ error: parsed.error }, parsed.status);
+      const { name, attendance, guests, updated_at } = parsed.data;
+      const clean = cleanName(name);
+      const validAttendance = attendance === "yes" || attendance === "no";
+      const validGuests = Number.isInteger(guests) && guests >= 0 && guests <= 10 &&
+        (attendance === "yes" ? guests >= 1 : guests === 0);
+      const validVersion = Number.isSafeInteger(updated_at) && updated_at > 0;
+      if (!clean || !validAttendance || !validGuests || !validVersion)
+        return noCache({ error: "Isi nama, status, dan jumlah tamu secara benar (1–10 untuk hadir, 0 untuk tidak hadir)." }, 400);
+      const time = Math.max(Date.now(), updated_at + 1);
+      const result = await env.DB.prepare(`UPDATE rsvps SET name = ?, attendance = ?, guests = ?, updated_at = ?
+        WHERE id = ? AND updated_at = ?`).bind(clean, attendance, guests, time, id, updated_at).run();
+      if (!result?.meta?.changes) return noCache({ error: "Data berubah atau tidak ditemukan. Refresh daftar lalu coba lagi." }, 409);
+      return noCache({ ok: true, updated: { id, name: clean, attendance, guests, updated_at: time } });
+    } catch (e) {
+      console.error("Admin mutation error", e);
+      return noCache({ error: "Perubahan belum dapat disimpan. Coba lagi." }, 503);
+    }
+  }
+
   if (request.method !== "GET") return noCache({ error: "Metode tidak didukung." }, 405, { Allow: "GET" });
   if (action === "me") return noCache({ ok: true, loggedIn: true });
 
@@ -139,8 +201,19 @@ export async function onRequest({ request, env }) {
           FROM rsvps`).first(),
         env.DB.prepare("SELECT COUNT(*) AS total FROM wishes").first(),
       ]);
+      // Aggregated by Jakarta calendar day; group in SQL so no personal records are sent to chart code.
+      // DB timestamps are Unix milliseconds.
+      const [rsvpTrend, wishTrend] = await Promise.all([
+        env.DB.prepare(`SELECT date(created_at / 1000, 'unixepoch', '+7 hours') AS day, COUNT(*) AS count
+          FROM rsvps WHERE created_at >= unixepoch(date('now', '+7 hours', '-13 days') || ' 00:00:00', '-7 hours') * 1000
+          GROUP BY day ORDER BY day`).all(),
+        env.DB.prepare(`SELECT date(created_at / 1000, 'unixepoch', '+7 hours') AS day, COUNT(*) AS count
+          FROM wishes WHERE created_at >= unixepoch(date('now', '+7 hours', '-13 days') || ' 00:00:00', '-7 hours') * 1000
+          GROUP BY day ORDER BY day`).all()
+      ]);
       return noCache({ responses: rsvp?.responses || 0, attending: rsvp?.attending || 0,
-        notAttending: rsvp?.not_attending || 0, guests: rsvp?.guest_total || 0, wishes: wish?.total || 0 });
+        notAttending: rsvp?.not_attending || 0, guests: rsvp?.guest_total || 0, wishes: wish?.total || 0,
+        rsvpDaily: rsvpTrend?.results || [], wishDaily: wishTrend?.results || [] });
     }
     if (action === "rsvps" || action === "wishes") {
       const paging = parsePaging(url);
