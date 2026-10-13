@@ -1,0 +1,28 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Saka & Dinda//Wedding Invitation//ID
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:saka-dinda-akad-20270116@saka-dinda-wedding.chatgpt.site
+DTSTAMP:20261010T000000Z
+DTSTART:20270116T020000Z
+DTEND:20270116T030000Z
+SUMMARY:Akad Nikah Saka & Dinda
+LOCATION:Stia Family House\, Jl. Rawa Bebek No. 32\, RT.7/RW.1\, Pul
+ o Gebang\, Cakung\, Jakarta Timur 13950
+DESCRIPTION:Akad nikah Saka & Dinda pukul 09.00-10.00 WIB.
+URL:https://maps.app.goo.gl/JTwRN1PnkpE6XVRE8
+END:VEVENT
+BEGIN:VEVENT
+UID:saka-dinda-resepsi-20270116@saka-dinda-wedding.chatgpt.site
+DTSTAMP:20261010T000000Z
+DTSTART:20270116T040000Z
+DTEND:20270116T080000Z
+SUMMARY:Resepsi Pernikahan Saka & Dinda
+LOCATION:Stia Family House\, Jl. Rawa Bebek No. 32\, RT.7/RW.1\, Pul
+ o Gebang\, Cakung\, Jakarta Timur 13950
+DESCRIPTION:Resepsi pernikahan Saka & Dinda pukul 11.00-15.00 WIB.
+URL:https://maps.app.goo.gl/JTwRN1PnkpE6XVRE8
+END:VEVENT
+END:VCALENDAR

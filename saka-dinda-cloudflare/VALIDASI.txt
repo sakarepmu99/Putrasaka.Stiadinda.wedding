@@ -1,0 +1,11 @@
+Paket diperiksa pada 13 Oktober 2026.
+PASS TypeScript
+PASS Vite production build
+PASS Wrangler bundle dry run
+PASS Migrasi database lokal
+PASS RSVP kirim dan baca kembali
+PASS RSVP tidak terbaca dari sesi browser lain
+PASS Buku ucapan kirim dan baca kembali
+PASS Halaman statis dan berkas musik
+Belum dideploy ke akun Cloudflare pengguna. Tampilan dan animasi belum diuji di browser.
+Tidak ada data RSVP/ucapan lama pada saat ekspor. Data uji lokal tidak termasuk paket.
