@@ -34,8 +34,88 @@
     .loginCard h1{font:normal 35px Georgia,serif;margin:14px 0 7px}.loginCard p{color:var(--muted);font-size:14px;margin:0 0 25px}
     label{display:block;color:var(--ink);font-size:13px;font-weight:700;margin-bottom:7px}input{display:block;width:100%;padding:13px 14px;border-radius:10px;border:1px solid #d8cfce;margin-bottom:16px;outline:none}input:focus{border-color:var(--wine);box-shadow:0 0 0 3px #51354420}
     .loginCard .btn{width:100%;margin-top:1px}.small{font-size:11px!important;color:var(--muted)!important;margin:18px 0 0!important}
+    .rowactions{display:flex;align-items:center;gap:7px;flex-wrap:nowrap}
+    .btn.mini{padding:6px 10px;min-height:32px;font-size:12px}
+    .btn.danger{border-color:#ecd0d0;background:#fff5f5;color:#9b3434}
+    .btn.danger:hover{background:#ffe6e6}
+    .success{background:#ecf8f0;border:1px solid #b8dfc5;color:#286d47;border-radius:10px;padding:11px 13px;font-size:13px;margin:12px 0}
+    dialog.editModal{border:1px solid var(--stroke);border-radius:20px;padding:26px;width:min(94vw,470px);max-height:90vh;box-shadow:0 18px 70px #30223050;color:var(--ink)}
+    dialog.editModal::backdrop{background:#201921a6}
+    dialog.editModal h2{font:normal 26px Georgia,serif;margin:0 0 7px}
+    dialog.editModal p{color:var(--muted);font-size:13px;margin:0 0 18px}
+    dialog.editModal select{width:100%;border:1px solid #d8cfce;border-radius:10px;padding:12px;margin-bottom:15px;background:#fff;color:var(--ink);font:inherit}
+    .modalButtons{display:flex;gap:9px;justify-content:flex-end;margin-top:6px}
+    dialog.editModal .error{margin:0 0 10px}
     .hidden{display:none!important}#message{margin-bottom:15px}#loading{padding:36px;color:var(--muted);text-align:center}
     @media(max-width:900px){.stats{grid-template-columns:repeat(3,minmax(0,1fr))}}@media(max-width:580px){.shell{padding:18px 12px 44px}.top{gap:11px}.brand h1{font-size:19px}.intro h2{font-size:27px}.stats{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.stat{padding:13px}.stat .num{font-size:25px}.stat .cap{font-size:11px}.panelHead{padding:14px}.loginCard{padding:25px}.foot{padding:12px;flex-wrap:wrap}}
+
+    /* Saka & Dinda — final burgundy dashboard, zero third-party chart dependencies */
+    :root{
+      --bg:#f8f3f0;--paper:#fffefd;--ink:#321d2a;--muted:#856e77;
+      --gold:#b88c65;--wine:#652c43;--wine-dark:#411c30;--wine-mid:#8a4a63;
+      --stroke:#eadbdc;--soft:#f8e9ed;--green:#297b60;--red:#b85162;
+    }
+    body{background:radial-gradient(circle at 12% 0%,#f4e3e7 0,transparent 380px),linear-gradient(170deg,#fcf8f5,#f9f1ee 60%,#f4e9e9);min-height:100vh}
+    .shell{max-width:1280px;padding:30px 24px 68px}
+    .top{margin-bottom:30px}
+    .mark{background:linear-gradient(150deg,#86455d,var(--wine-dark));border-radius:15px;box-shadow:0 5px 16px #572b4133}
+    .brand h1{color:var(--wine-dark)}
+    .eyebrow{color:var(--gold)}
+    .btn{transition:background .15s,border-color .15s,transform .15s}
+    .btn:hover:not(:disabled){transform:translateY(-1px)}
+    .btn.primary{background:var(--wine);border-color:var(--wine)}
+    .btn.primary:hover{background:var(--wine-dark)}
+    .btn.danger{background:#fff0f0;border-color:#eecbd1;color:#9c314a}
+    .intro{background:linear-gradient(112deg,var(--wine-dark),#713850 64%,#a86f6f);padding:28px 30px;border-radius:23px;color:#fff;position:relative;overflow:hidden;margin-bottom:22px;box-shadow:0 20px 36px #51263a18}
+    .intro:after{content:'S & D';position:absolute;right:34px;top:-27px;font:italic 112px Georgia,serif;color:#ffffff0d;pointer-events:none}
+    .intro h2{color:#fff;position:relative;z-index:1;font-size:35px}
+    .intro p{color:#f1dadd;position:relative;z-index:1;font-size:13px}
+    .intro .heroTag{font-size:10px;letter-spacing:2.3px;text-transform:uppercase;font-weight:750;color:#dec0a1;position:relative;z-index:1;margin-bottom:10px}
+    .notice{background:#fff7f0;border-color:#efded1;color:#755745}
+    .stat,.panel,.chartCard{box-shadow:0 8px 26px #5330440a}
+    .stat{position:relative;overflow:hidden;min-height:116px;transition:transform .15s}
+    .stat:hover{transform:translateY(-2px)}
+    .stat::before{content:'';position:absolute;top:0;left:0;width:100%;height:4px;background:linear-gradient(90deg,var(--wine),#bc8595)}
+    .stat:nth-child(2)::before{background:#37876c}.stat:nth-child(3)::before{background:#cc7882}
+    .stat:nth-child(4)::before{background:#b78a5b}.stat:nth-child(5)::before{background:#9c789d}
+    .stat .num{font-size:33px;font-weight:600;letter-spacing:-1px;color:var(--wine-dark)}
+    .stat .cap{font-weight:650}
+    .charts{display:grid;grid-template-columns:minmax(280px,.85fr) minmax(0,1.45fr);gap:16px;margin:0 0 27px}
+    .chartCard{background:var(--paper);border:1px solid var(--stroke);border-radius:20px;padding:21px 24px 19px;min-width:0}
+    .chartHeader{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:16px}
+    .chartTitle{font:normal 21px Georgia,serif;color:var(--wine-dark);margin:0}
+    .chartHelp{font-size:12px;color:var(--muted);margin:4px 0 0}
+    .chartTag{font-size:10px;font-weight:800;background:#f6e7eb;color:var(--wine);border-radius:20px;padding:6px 9px;white-space:nowrap}
+    .donutLayout{display:flex;justify-content:space-around;align-items:center;gap:22px;min-height:208px}
+    .donut{--p:0;--track:#f0e4e6;width:188px;height:188px;border-radius:50%;background:conic-gradient(#7c3a55 0% calc(var(--p)*1%),#d8a3ab calc(var(--p)*1%) 100%);display:grid;place-items:center;position:relative;flex-shrink:0;box-shadow:0 0 0 1px #f0e4e6}
+    .donut.empty{background:conic-gradient(#e8dce0 0% 100%)}
+    .donut:before{content:'';position:absolute;inset:29px;border-radius:50%;background:#fffefd}
+    .donutCenter{position:relative;text-align:center;color:var(--wine-dark);display:flex;flex-direction:column}
+    .donutCenter strong{font:600 33px Georgia,serif}.donutCenter small{font-size:11px;color:var(--muted)}
+    .legend{display:grid;gap:14px;min-width:125px}
+    .legendLine{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:12px;color:var(--muted)}
+    .legendText{display:flex;align-items:center;gap:8px}
+    .dot{height:10px;width:10px;border-radius:50%;flex-shrink:0}.dot.yes{background:#7c3a55}.dot.no{background:#d8a3ab}
+    .legendLine strong{font:700 16px system-ui;color:var(--ink)}
+    .chartFoot{padding-top:10px;border-top:1px dashed #efdee2;font-size:11px;color:var(--muted);margin-top:12px}
+    .trendLegend{display:flex;align-items:center;gap:16px;font-size:12px;color:var(--muted);margin-top:8px}
+    .trendPlot{display:flex;gap:9px;height:182px;border-bottom:1px solid #e6d9dc;position:relative;padding:8px 4px 0;margin-bottom:34px}
+    .trendPlot:before{content:'';position:absolute;inset:8px 0 0;background:repeating-linear-gradient(to top,transparent,transparent calc(25% - 1px),#f0e8e9 calc(25% - 1px),#f0e8e9 25%);pointer-events:none}
+    .dayGroup{position:relative;display:flex;flex:1;align-items:end;justify-content:center;gap:3px;min-width:0;z-index:1}
+    .dayBar{width:min(43%,17px);min-height:0;border-radius:6px 6px 1px 1px;transition:height .2s ease;background:#7c3a55}
+    .dayBar.wish{background:#d2a2ac}
+    .dayLabel{font-size:10px;color:var(--muted);position:absolute;bottom:-25px;left:50%;transform:translateX(-50%);white-space:nowrap}
+    .plotMessage{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;color:var(--muted);background:#fffefda0;z-index:3;text-align:center}
+    .pill.yes{background:#e7f4ee}.pill.no{background:#f9e6ea}
+    .switch button.selected{background:var(--wine)}
+    .panelHead{background:#fffaf9}
+    th{background:#faf2f3}
+    .loginCard{border-color:#ead7dd;background:#fffefd;box-shadow:0 16px 50px #54273b18}
+    a{color:var(--wine)}
+    @media(max-width:980px){.charts{grid-template-columns:1fr}.donutLayout{justify-content:center;gap:45px}}
+    @media(max-width:580px){.shell{padding:18px 12px 42px}.intro{padding:22px 19px;border-radius:18px}.intro:after{right:-16px;font-size:87px;top:8px}.intro h2{font-size:29px}.charts{gap:11px}.chartCard{padding:17px 14px}.donutLayout{gap:22px;min-height:175px}.donut{width:150px;height:150px}.donut:before{inset:23px}.donutCenter strong{font-size:28px}.legend{min-width:112px}.trendPlot{height:150px}.dayLabel{font-size:9px}.chartTitle{font-size:19px}.stats{margin-bottom:16px}}
+    @media(max-width:380px){.donutLayout{gap:14px}.donut{height:135px;width:135px}.donut:before{inset:20px}.chartTag{display:none}}
+    @media(prefers-reduced-motion:reduce){.btn,.stat,.dayBar{transition:none!important}}
   </style>
 </head>
 <body>
@@ -58,15 +138,36 @@
       <div class="brand"><div class="mark">S&amp;D</div><div><div class="eyebrow">Wedding Administration</div><h1>Saka &amp; Dinda</h1></div></div>
       <div class="topactions"><button id="refresh" class="btn">↻ Refresh data</button><button id="logout" class="btn">Keluar</button></div>
     </header>
-    <section class="intro"><h2>Ringkasan Tamu</h2><p>Pantau konfirmasi kehadiran dan pesan ucapan dari satu tempat.</p></section>
+    <section class="intro"><div class="heroTag">Private wedding administration · 16 Januari 2027</div><h2>Ringkasan Tamu</h2><p>Pantau kehadiran dan ucapan Saka &amp; Dinda dalam satu dashboard.</p></section>
     <div class="notice">Privat: data RSVP hanya tersedia untuk admin yang login. Unduhan CSV dapat dibuka dengan Microsoft Excel.</div>
     <div id="message" class="error hidden" role="alert"></div>
+    <div id="success" class="success hidden" role="status"></div>
     <section class="stats" aria-label="Ringkasan statistik">
       <article class="stat"><div class="cap">Total konfirmasi</div><div class="num" id="responses">—</div></article>
       <article class="stat"><div class="cap">Konfirmasi hadir</div><div class="num" id="attending">—</div></article>
       <article class="stat"><div class="cap">Tidak hadir</div><div class="num" id="notAttending">—</div></article>
       <article class="stat"><div class="cap">Total orang hadir</div><div class="num" id="guests">—</div></article>
       <article class="stat"><div class="cap">Jumlah ucapan</div><div class="num" id="wishesCount">—</div></article>
+    </section>
+
+    <section class="charts" aria-label="Diagram RSVP dan aktivitas">
+      <article class="chartCard">
+        <div class="chartHeader"><div><h3 class="chartTitle">Komposisi Kehadiran</h3><p class="chartHelp">Persentase dari total formulir RSVP</p></div><span class="chartTag">RSVP</span></div>
+        <div class="donutLayout">
+          <div class="donut empty" id="attendanceDonut" role="img" aria-label="Belum ada data RSVP"><div class="donutCenter"><strong id="donutPercent">0%</strong><small>konfirmasi hadir</small></div></div>
+          <div class="legend">
+            <div class="legendLine"><span class="legendText"><i class="dot yes"></i>Hadir</span><strong id="legendYes">0</strong></div>
+            <div class="legendLine"><span class="legendText"><i class="dot no"></i>Tidak hadir</span><strong id="legendNo">0</strong></div>
+          </div>
+        </div>
+        <div class="chartFoot">Menghitung jumlah konfirmasi, bukan jumlah orang.</div>
+      </article>
+      <article class="chartCard">
+        <div class="chartHeader"><div><h3 class="chartTitle">Aktivitas 14 Hari Terakhir</h3><p class="chartHelp">Jumlah RSVP baru dan ucapan masuk per hari (WIB)</p></div><span class="chartTag">TREN</span></div>
+        <div id="trendPlot" class="trendPlot" role="img" aria-label="Data aktivitas sedang dimuat"></div>
+        <div class="trendLegend"><span class="legendText"><i class="dot yes"></i>RSVP baru</span><span class="legendText"><i class="dot no"></i>Ucapan masuk</span></div>
+        <div class="chartFoot">Grafik menampilkan data aktual dan diperbarui saat Refresh data.</div>
+      </article>
     </section>
     <nav class="switch" aria-label="Pilih data">
       <button type="button" id="tabRsvps" class="selected">Daftar RSVP</button>
@@ -80,23 +181,41 @@
     </section>
     <p class="small" style="text-align:center;margin-top:28px!important">Admin Saka &amp; Dinda · Data dari Cloudflare D1 · <a href="/" style="color:var(--wine)">Kembali ke Undangan</a></p>
   </main>
+  <dialog id="editDialog" class="editModal" aria-labelledby="editTitle">
+    <form id="editForm">
+      <h2 id="editTitle">Edit RSVP</h2>
+      <p>Perubahan akan disimpan ke data tamu asli di Cloudflare D1.</p>
+      <label for="editName">Nama tamu</label>
+      <input id="editName" maxlength="80" required autocomplete="off">
+      <label for="editAttendance">Status kehadiran</label>
+      <select id="editAttendance" required>
+        <option value="yes">Hadir</option>
+        <option value="no">Tidak hadir</option>
+      </select>
+      <label for="editGuests">Jumlah orang (1–10 jika hadir)</label>
+      <input id="editGuests" type="number" min="0" max="10" step="1" required>
+      <div id="editError" class="error hidden" role="alert"></div>
+      <div class="modalButtons">
+        <button type="button" id="cancelEdit" class="btn">Batal</button>
+        <button type="submit" id="saveEdit" class="btn primary">Simpan perubahan</button>
+      </div>
+    </form>
+  </dialog>
   <script>
     (() => {
       'use strict';
       const $ = id => document.getElementById(id);
-      let tab = 'rsvps', offset = 0, nextOffset = null, loading = false;
+      let tab = 'rsvps', offset = 0, nextOffset = null, loading = false, mutating = false, selectedRsvp = null;
       const PAGE_SIZE = 50;
       const header = {
-        rsvps: ['Nama tamu','Status','Jumlah orang','Tanggal konfirmasi'],
-        wishes: ['Nama pengirim','Ucapan','Tanggal kirim']
-      };
-      const field = {
-        rsvps: ['name','attendance','guests','updated_at'],
-        wishes: ['name','message','created_at']
+        rsvps: ['Nama tamu','Status','Jumlah orang','Tanggal konfirmasi','Aksi'],
+        wishes: ['Nama pengirim','Ucapan','Tanggal kirim','Aksi']
       };
       function show(which) { $('login').classList.toggle('hidden', which !== 'login'); $('dashboard').classList.toggle('hidden', which !== 'dashboard'); }
       function error(message, login = false) { const el = $(login ? 'loginError' : 'message'); el.textContent = message; el.classList.remove('hidden'); }
       function clearError(login = false) { const el = $(login ? 'loginError' : 'message'); el.textContent = ''; el.classList.add('hidden'); }
+      function success(text) { const el=$('success'); el.textContent=text; el.classList.remove('hidden'); }
+      function clearSuccess() { $('success').textContent=''; $('success').classList.add('hidden'); }
       async function api(path, options = {}) {
         const response = await fetch('/api/admin/' + path, { credentials:'same-origin', cache:'no-store', ...options });
         let data;
@@ -119,12 +238,115 @@
             p.className='pill '+(item.attendance==='yes'?'yes':'no'); p.textContent=item.attendance==='yes'?'Hadir':'Tidak hadir'; c.appendChild(p);r.appendChild(c);
             td(r,item.guests); td(r,fmtDate(item.updated_at));
           } else { td(r,item.message,'message'); td(r,fmtDate(item.created_at)); }
+          const tools=document.createElement('td'), wrap=document.createElement('div'); wrap.className='rowactions';
+          if (tab==='rsvps') {
+            const edit=document.createElement('button'); edit.type='button';edit.className='btn mini';edit.textContent='✎ Edit';
+            edit.addEventListener('click',()=>openEdit(item));wrap.appendChild(edit);
+          }
+          const del=document.createElement('button');del.type='button';del.className='btn mini danger';del.textContent='🗑 Hapus';
+          const table=tab;del.addEventListener('click',()=>removeRecord(table,item));wrap.appendChild(del);
+          tools.appendChild(wrap);r.appendChild(tools);
           body.appendChild(r);
         }
+      }
+      function refreshGuestCount() {
+        if ($('editAttendance').value==='no') { $('editGuests').value='0';$('editGuests').disabled=true; }
+        else { $('editGuests').disabled=false; if (Number($('editGuests').value)<1) $('editGuests').value='1'; }
+      }
+      function openEdit(item) {
+        if (mutating || loading) return;
+        selectedRsvp={ ...item };
+        $('editName').value=item.name;
+        $('editAttendance').value=item.attendance;
+        $('editGuests').value=item.guests;
+        $('editError').classList.add('hidden');
+        refreshGuestCount();
+        $('editDialog').showModal();
+      }
+      async function afterMutation(message) {
+        // Clear local paging if the last item on the current page was removed.
+        try {
+          await summary();
+          await loadTable();
+          if ($('tableBody').children.length===1 && $('tableBody').textContent.includes('Belum ada data') && offset>=PAGE_SIZE) {
+            offset-=PAGE_SIZE;
+            await loadTable();
+          }
+        } catch (e) {
+          error('Data berhasil diubah tetapi ringkasan belum diperbarui: '+e.message);
+        }
+        success(message);
+      }
+      async function removeRecord(type,item) {
+        if (mutating || loading) return;
+        const label=type==='rsvps'?'RSVP':'ucapan';
+        if (!window.confirm(`Hapus ${label} milik "${item.name}" secara permanen?\n\nTindakan ini tidak dapat dibatalkan.`)) return;
+        mutating=true;clearError();clearSuccess();
+        try {
+          await api(type+'/'+encodeURIComponent(item.id),{method:'DELETE'});
+          await afterMutation(`${label==='RSVP'?'RSVP':'Ucapan'} milik ${item.name} berhasil dihapus.`);
+        } catch(e) {error(e.message);}
+        finally{mutating=false;}
+      }
+      async function saveRsvp(event) {
+        event.preventDefault();if(mutating || !selectedRsvp)return;
+        const name=$('editName').value.trim().replace(/\s+/g,' ');
+        const attendance=$('editAttendance').value;
+        const guests=attendance==='no'?0:Number($('editGuests').value);
+        if (!name || name.length>80 || !Number.isInteger(guests) || (attendance==='yes' && (guests<1 || guests>10))) {
+          $('editError').textContent='Nama, status, atau jumlah tamu tidak valid.';$('editError').classList.remove('hidden');return;
+        }
+        mutating=true;$('saveEdit').disabled=true;$('editError').classList.add('hidden');clearError();clearSuccess();
+        try {
+          await api('rsvps/'+encodeURIComponent(selectedRsvp.id),{
+            method:'PATCH',headers:{'content-type':'application/json'},
+            body:JSON.stringify({name,attendance,guests,updated_at:selectedRsvp.updated_at})
+          });
+          $('editDialog').close();selectedRsvp=null;
+          await afterMutation('Perubahan RSVP berhasil disimpan.');
+        }catch(e){$('editError').textContent=e.message;$('editError').classList.remove('hidden');}
+        finally{mutating=false;$('saveEdit').disabled=false;}
+      }
+
+      function renderCharts(data) {
+        const attending=Math.max(0,Number(data.attending)||0), absent=Math.max(0,Number(data.notAttending)||0);
+        const total=attending+absent, ratio=total?Math.round(attending/total*100):0;
+        $('donutPercent').textContent=ratio+'%';
+        $('legendYes').textContent=attending.toLocaleString('id-ID');
+        $('legendNo').textContent=absent.toLocaleString('id-ID');
+        $('attendanceDonut').classList.toggle('empty',total===0);
+        $('attendanceDonut').style.setProperty('--p',total===0?0:attending/total*100);
+        $('attendanceDonut').setAttribute('aria-label',total===0?'Belum ada data RSVP':`${attending} konfirmasi hadir dan ${absent} tidak hadir`);
+        const rsvpCounts=new Map((data.rsvpDaily||[]).map(item=>[item.day,Math.max(0,Number(item.count)||0)]));
+        const wishCounts=new Map((data.wishDaily||[]).map(item=>[item.day,Math.max(0,Number(item.count)||0)]));
+        const todayWib=new Date(Date.now()+7*60*60*1000).toISOString().slice(0,10);
+        const dates=[];
+        for(let day=13;day>=0;day--) {
+          const date=new Date(Date.parse(todayWib+'T00:00:00Z')-day*86400000);
+          dates.push(date.toISOString().slice(0,10));
+        }
+        const max=Math.max(1,...dates.flatMap(day=>[rsvpCounts.get(day)||0,wishCounts.get(day)||0]));
+        const chart=$('trendPlot'); chart.replaceChildren();
+        let all=0;
+        dates.forEach((day,i)=>{
+          const yes=rsvpCounts.get(day)||0, wish=wishCounts.get(day)||0; all+=yes+wish;
+          const group=document.createElement('div');group.className='dayGroup';
+          for(const [count,cls,label] of [[yes,'rsvp','RSVP'],[wish,'wish','Ucapan']]) {
+            const bar=document.createElement('div');bar.className='dayBar '+cls;
+            bar.style.height=count>0?Math.max(3,count/max*100)+'%':'0';
+            bar.title=`${day}: ${count} ${label}`;
+            bar.setAttribute('aria-label',bar.title);group.appendChild(bar);
+          }
+          if(i%2===0||i===13){const x=document.createElement('span');x.className='dayLabel';x.textContent=day.slice(8);x.title=day;group.appendChild(x);}
+          chart.appendChild(group);
+        });
+        if(all===0){const empty=document.createElement('div');empty.className='plotMessage';empty.textContent='Belum ada aktivitas dalam 14 hari terakhir.';chart.appendChild(empty);}
+        chart.setAttribute('aria-label',`Total ${[...rsvpCounts.values()].reduce((a,b)=>a+b,0)} RSVP dan ${[...wishCounts.values()].reduce((a,b)=>a+b,0)} ucapan selama 14 hari terakhir`);
       }
       async function summary() {
         const data=await api('summary');
         [['responses','responses'],['attending','attending'],['notAttending','notAttending'],['guests','guests'],['wishes','wishesCount']].forEach(([source,id])=>{ $(id).textContent=Number(data[source]||0).toLocaleString('id-ID'); });
+        renderCharts(data);
       }
       async function loadTable() {
         if (loading) return;
@@ -188,6 +410,10 @@
       $('tabWishes').addEventListener('click',()=>switchTab('wishes'));
       $('prev').addEventListener('click',()=>{if(offset>=PAGE_SIZE){offset-=PAGE_SIZE;loadTable();}});
       $('next').addEventListener('click',()=>{if(nextOffset!==null){offset=nextOffset;loadTable();}});
+      $('editAttendance').addEventListener('change',refreshGuestCount);
+      $('cancelEdit').addEventListener('click',()=>{$('editDialog').close();selectedRsvp=null;});
+      $('editDialog').addEventListener('close',()=>{selectedRsvp=null;});
+      $('editForm').addEventListener('submit',saveRsvp);
       $('export').addEventListener('click',exportCsv);
       (async()=>{try {await api('me');show('dashboard');await Promise.all([summary(),loadTable()]);}catch{show('login');}})();
     })();
